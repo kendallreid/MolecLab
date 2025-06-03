@@ -1,0 +1,9 @@
+﻿  main.cpp
+  Sim2.cpp
+C:\Users\kreid\source\repos\MolecLab1\MolecLab1\Sim2.cpp(28,65): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Tile.cpp
+C:\Users\kreid\source\repos\MolecLab1\MolecLab1\Tile.cpp(31,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\kreid\source\repos\MolecLab1\MolecLab1\Tile.cpp(32,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+C:\Users\kreid\source\repos\MolecLab1\MolecLab1\Sim2.cpp(23,1): warning C4715: 'Sim::determineReaction': not all control paths return a value
+  MolecLab1.vcxproj -> C:\Users\kreid\source\repos\MolecLab1\x64\Debug\MolecLab1.exe
