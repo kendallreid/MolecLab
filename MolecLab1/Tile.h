@@ -67,9 +67,6 @@ private:
 	double _totalProp;
 	vector<double> _reacRate;  // Reaction rates for each possible reaction
 	vector<double> _reacProp;  // Propensities for each reaction
-	//std::random_device rd;  // Obtain seed 
-	//std::mt19937 gen; // Standard mersenne_twister_engine seeded with rd()
-	//std::uniform_real_distribution<> dis;  // (0, 1.0)
 };
 
 #endif
