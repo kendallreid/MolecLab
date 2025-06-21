@@ -1,3 +1,9 @@
+---MATRIX---
 A,B,A
 U,B,B
 B,A,B
+
+---REACTIONS---
+A+B=U+U
+A+U=A+A
+B+U=B+B

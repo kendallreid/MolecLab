@@ -9,6 +9,8 @@ void Tile::populateMatrix()
 		string line;
 		while (getline(input, line))  // Read line of file
 		{
+			if (line.empty())  // Check if reached end of matrix input within file
+				break;
 			vector<string> row;
 			stringstream ss(line);
 			string reactant;
