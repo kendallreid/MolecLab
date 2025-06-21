@@ -78,10 +78,10 @@ void Sim::simStep(Tile& tile)
 
 void Sim::runSim(double maxTime)
 {
-	Tile tile;
+	Tile tile("input.csv");
 	// Calculate propensities to have starting values
-	tile.populateMatrix();
-	tile.updateSizeParams();
+	/*tile.populateMatrix();
+	tile.updateSizeParams();*/
 	tile.tileSimStep();
 
 	// Open data file for plotting values

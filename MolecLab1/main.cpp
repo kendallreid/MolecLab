@@ -3,6 +3,7 @@
 
 int main()
 {
-	Sim simulation(3, 5, 1);
-	simulation.runSim(100);
+	Tile t("input.csv");
+	/*Sim simulation(3, 5, 1);
+	simulation.runSim(100);*/
 }

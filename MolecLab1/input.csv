@@ -4,6 +4,6 @@ U,B,B
 B,A,B
 
 ---REACTIONS---
-A+B=U+U
-A+U=A+A
-B+U=B+B
+A+B=U+U,1.0
+A+U=A+A,1.0
+B+U=B+B,1.0
