@@ -4,6 +4,7 @@
 #include <vector>
 #include <utility>
 #include <string>
+#include <unordered_map>
 #include <random>
 #include <cmath>
 #include <cstdlib>
@@ -13,6 +14,7 @@
 using std::string;
 using std::vector;
 using std::pair;
+using std::unordered_map;
 
 // REACTIONS //
 // R1: A+B=2U
@@ -30,6 +32,7 @@ public:
 	void nextReacTime(const double& totalProp);
 	int determineReaction(const double& totalProp, const vector<double>& reacProp);
 	void performReaction(const int& rxn, Tile& tile);
+	void initConc(Tile& tile);
 	void updateConcentrations(int reaction);
 	double getRand() { return dis(gen); }  // Computes random number
 	int getRandIndex(int size);  // Get index for reaction
@@ -38,7 +41,7 @@ public:
 	void runSim(double maxTime);
 
 private:
-	vector<int> _conc;  // Concentrations vector for A, B, C
+	unordered_map<string, int> _conc;  // Reactant key holds # of pixels as concentration
 	vector<vector<int>> _concOverTime;  // Keeps track of concentrations over time
 	vector<int> _rxn;  // Keep track of all reactions
 	vector<double> _time;  // Time vector

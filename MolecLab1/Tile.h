@@ -58,6 +58,7 @@ public:
 	const vector<double>& getReacProp() const { return _reacProp; }
 	const vector<vector<pair<pair<int, int>, pair<int, int>>>>& getPixelPairPos() const { return _reactantPixelPairPos; }
 	const vector<Reaction>& getReactions() const { return _reactions; }
+	const vector<vector<string>>& getPixelMatrix() const { return _pixelMatrix; }
 
 	void updateMatrix(int rxn, int rxnIndex);
 

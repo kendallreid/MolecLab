@@ -29,6 +29,14 @@ void Sim::performReaction(const int& rxn, Tile& tile)
 	tile.updateMatrix(rxn, rxnIndex);  // Update matrix pixels
 }
 
+void Sim::initConc(Tile& tile)
+{
+	const auto& matrix = tile.getPixelMatrix();
+	for (const auto& row : matrix)  // Loop through to get starting concentrations
+		for (const auto& reactant : row)
+			++_conc[reactant];  // Add 1 to concentration for each reactant found
+}
+
 void Sim::updateConcentrations(int reaction)
 {
 	switch (reaction)  // Based on which reaction
