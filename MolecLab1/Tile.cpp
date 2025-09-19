@@ -138,18 +138,16 @@ void Tile::populateReacPosVec(pair<int, int> pos1, pair<int, int> pos2)
 	string reac1 = _pixelMatrix[pos1.first][pos1.second];
 	string reac2 = _pixelMatrix[pos2.first][pos2.second];
 
-	// Add pixel pair to possible reactions
-	//if (bothInSet(reac1, reac2, rule1))
-	//	_reactantPixelPairPos[0].emplace_back(pos1, pos2);  // Reaction 1
-	//if (bothInSet(reac1, reac2, rule2))
-	//	_reactantPixelPairPos[1].emplace_back(pos1, pos2);  // Reaction 2
-	//if (bothInSet(reac1, reac2, rule3))
-	//	_reactantPixelPairPos[2].emplace_back(pos1, pos2);  // reaction 3
+	for (int i = 0; i < _reactions.size(); ++i)
+	{
+		if (bothInSet(reac1, reac2, _reactions[i]))  // If reactants match reaction add to pixel pair list
+			_reactantPixelPairPos[i].emplace_back(pos1, pos2);
+	}
 }
 
-bool Tile::bothInSet(const string& reac1, const string& reac2, const unordered_set<string>& rule)
+bool Tile::bothInSet(const string& reac1, const string& reac2, const Reaction& rxn)
 {
-	return rule.count(reac1) && rule.count(reac2);
+	return rxn.reactants.count(reac1) && rxn.reactants.count(reac2);
 }
 
 void Tile::tileSimStep()
@@ -178,11 +176,9 @@ void Tile::printMatrix()
 
 void Tile::calcReacProp()
 {
-	int i = 0;
-	for (const auto& rxn : _reactions)  // For each possible reaction, calculate propensity
+	for (int i = 0; i < _reactions.size(); ++i)  // For each possible reaction, calculate propensity
 	{
-		_reacProp[i] = _reactantPixelPairPos[i].size() * rxn.rate;
-		++i;
+		_reacProp[i] = _reactantPixelPairPos[i].size() * _reactions[i].rate;
 	}
 }
 
