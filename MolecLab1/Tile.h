@@ -43,8 +43,8 @@ public:
 	void readFromFile(const string& filename);
 	void populateMatrix(string& line);  // Using file, input values to matrix
 	void populateReactions(string& line);  // Using file, input reactions to list of possible 
-
 	void updateSizeParams();  // Calculate size of matrix for later functions
+
 	void findPixelPairs();  // Obtain all pixel pairs
 	void populateReacPosVec(pair<int, int> pos1, pair<int, int> pos2);  // Fills vector with all pixel pairs - sorted by reaction numbers 
 	bool bothInSet(const string& reac1, const string& reac2, const unordered_set<string>& rule);  // Check if their is a reaction

@@ -66,7 +66,7 @@ void Tile::populateReactions(string& line)
 	getline(reactSs, product);
 
 	// Parse reactants
-	unordered_set<string> reactants;
+	unordered_set<string> reactants;  // Set of all reactants
 	stringstream reacSs(reactant);
 	string val;
 	while (getline(reacSs, val, '+'))
@@ -94,7 +94,7 @@ void Tile::updateSizeParams()
 	if (!_reactions.empty())
 	{
 		_numReactions = _reactions.size();
-		_reactantPixelPairPos.resize(_numReactions);
+		_reactantPixelPairPos.resize(_numReactions);  // Rows = number of reactions
 		_reacProp.resize(_numReactions);
 	}
 }
@@ -105,25 +105,25 @@ void Tile::findPixelPairs()
 	{
 		for (int col = 0; col < _colSize; ++col)
 		{
-			if (col < _colSize - 1)  // Check if in bounds (next column)
+			if (col < _colSize - 1)  // Check if in bounds (next column) right
 			{
 				if (_pixelMatrix[row][col] != _pixelMatrix[row][col + 1])  // If reactants aren't the same
 					populateReacPosVec({ row, col }, { row, col + 1 });  // Enter positions of each reactant into pixel pair vector
 
 			}
-			if (col > 0)  // Check in bounds (previous column)
+			if (col > 0)  // Check in bounds (previous column) left
 			{
 				if (_pixelMatrix[row][col] != _pixelMatrix[row][col - 1])
 					populateReacPosVec({ row, col }, { row, col - 1 });
 
 			}
-			if (row < _rowSize - 1)  // Check if in bounds (lower row)
+			if (row < _rowSize - 1)  // Check if in bounds (lower row) down
 			{
 				if (_pixelMatrix[row][col] != _pixelMatrix[row + 1][col])
 					populateReacPosVec({ row, col }, { row + 1, col });
 
 			}
-			if (row > 0)  // Check in bounds (above row)
+			if (row > 0)  // Check in bounds (above row) up
 			{
 				if (_pixelMatrix[row][col] != _pixelMatrix[row - 1][col])
 					populateReacPosVec({ row, col }, { row - 1, col });
@@ -157,7 +157,6 @@ void Tile::tileSimStep()
 	for (int i = 0; i < _reactantPixelPairPos.size(); ++i)
 	{
 		_reactantPixelPairPos[i].clear();
-
 	}
 	findPixelPairs();
 	calcReacProp();
@@ -179,9 +178,12 @@ void Tile::printMatrix()
 
 void Tile::calcReacProp()
 {
-	//_reacProp[0] = _reactantPixelPairPos[0].size() * _reacRate[0];  // Number of reaction pairs * k1
-	//_reacProp[1] = _reactantPixelPairPos[1].size() * _reacRate[1];  // Number of reaction pairs * k2
-	//_reacProp[2] = _reactantPixelPairPos[2].size() * _reacRate[2];  // Number of reaction pairs * k3
+	int i = 0;
+	for (const auto& rxn : _reactions)  // For each possible reaction, calculate propensity
+	{
+		_reacProp[i] = _reactantPixelPairPos[i].size() * rxn.rate;
+		++i;
+	}
 }
 
 void Tile::calcTotalProp()
