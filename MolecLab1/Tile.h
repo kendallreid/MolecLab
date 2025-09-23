@@ -67,9 +67,7 @@ private:
 	vector<vector<pair<pair<int, int>, pair<int, int>>>> _reactantPixelPairPos;  // Vector holding position of reactants for each pixel pair (pair of coordinate pairs)
 	int _rowSize, _colSize, _numReactions;
 	double _totalProp;
-	//vector<double> _reacRate;  // Reaction rates for each possible reaction
 	vector<double> _reacProp;  // Propensities for each reaction
 	vector<Reaction> _reactions;  // List of reactions
 };
-
 #endif

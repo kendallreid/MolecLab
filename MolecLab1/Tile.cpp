@@ -189,22 +189,14 @@ void Tile::calcTotalProp()
 
 void Tile::updateMatrix(int rxn, int rxnIndex)
 {
-	pair<pair<int, int>, pair<int, int>> pair = _reactantPixelPairPos[rxn][rxnIndex];  // Get position of pair to update
+	pair<pair<int, int>, pair<int, int>> pair = _reactantPixelPairPos[rxn][rxnIndex];  // Get position of pair to update. Gives pair<pair, pair>
 
-	//switch (rxn)
-	//{
-	//case 0:  // A+B=2U
-	//	// Update matrix after reaction occurs
-	//	_pixelMatrix[pair.first.first][pair.first.second] = prod1.first;
-	//	_pixelMatrix[pair.second.first][pair.second.second] = prod1.second;
-	//	break;
-	//case 1:  // A+U=2A
-	//	_pixelMatrix[pair.first.first][pair.first.second] = prod2.first;
-	//	_pixelMatrix[pair.second.first][pair.second.second] = prod2.second;
-	//	break;
-	//case 2:  // B+U=2B
-	//	_pixelMatrix[pair.first.first][pair.first.second] = prod3.first;
-	//	_pixelMatrix[pair.second.first][pair.second.second] = prod3.second;
-	//	break;
-	//}
+	for (int i = 0; i < _reactions.size(); ++i)
+	{
+		if (rxn == i)
+		{
+			_pixelMatrix[pair.first.first][pair.first.second] = _reactions[rxn].products.first;  // Update first pixel in matrix with new product
+			_pixelMatrix[pair.second.first][pair.second.second] = _reactions[rxn].products.second;  // Update second pixel in matrix with new product
+		}
+	}
 }
