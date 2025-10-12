@@ -62,6 +62,7 @@ public:
 	const vector<vector<pair<pair<int, int>, pair<int, int>>>>& getPixelPairPos() const { return _reactantPixelPairPos; }
 	const vector<Reaction>& getReactions() const { return _reactions; }
 	const vector<vector<string>>& getPixelMatrix() const { return _pixelMatrix; }
+	const unordered_map<string, int>& getConc() const { return _conc; }
 
 	void updateMatrix(int rxn, int rxnIndex);
 	void updateConc(int rxn);
