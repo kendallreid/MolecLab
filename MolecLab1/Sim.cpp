@@ -1,22 +1,22 @@
-#include "Sim2.h"
+#include "Sim.h"
 
 void Sim::nextReacTime(const double& totalProp)
 {
 	double dt = (-log(getRand())) / totalProp;  // Get next reaction time interval
-	_time.push_back(dt + _time[_time.size() - 1]);  // Add curent time plus dt to find next reaction time
+	_timeTrack.push_back(dt + _timeTrack[_timeTrack.size() - 1]);  // Add current time plus dt to find next reaction time
 }
 
 int Sim::determineReaction(const double& totalProp, const vector<double>& reacProp)
 {
 	double stepReac = getRand() * totalProp;  // Random value (0 - 1.0) to determine reaction
-	double cummulativeSum = 0.0;
+	double cumulativeSum = 0.0;
 
 	for (int j = 0; j < reacProp.size(); ++j)  // Size is number of reactions possible
 	{
-		cummulativeSum += reacProp[j];
-		if (cummulativeSum >= stepReac)  // Reaction j occurred
+		cumulativeSum += reacProp[j];
+		if (cumulativeSum >= stepReac)  // Reaction j occurred
 		{
-			_rxn.push_back(j);  // Add reaction to rxn vector
+			_rxnTrack.push_back(j);  // Add reaction to rxn vector
 			return j;
 		}
 	}
