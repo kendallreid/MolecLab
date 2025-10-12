@@ -99,6 +99,13 @@ void Tile::updateSizeParams()
 	}
 }
 
+void Tile::initConc()
+{
+	for (const auto& row : _pixelMatrix)  // Loop through to get starting concentrations
+		for (const auto& reactant : row)
+			++_conc[reactant];  // Add 1 to concentration for each reactant found
+}
+
 void Tile::findPixelPairs()
 {
 	for (int row = 0; row < _rowSize; ++row)
@@ -152,7 +159,7 @@ bool Tile::bothInSet(const string& reac1, const string& reac2, const Reaction& r
 
 void Tile::tileSimStep()
 {
-	for (int i = 0; i < _reactantPixelPairPos.size(); ++i)
+	for (int i = 0; i < _reactantPixelPairPos.size(); ++i)  // Clear for next possible reactions
 	{
 		_reactantPixelPairPos[i].clear();
 	}
@@ -197,6 +204,26 @@ void Tile::updateMatrix(int rxn, int rxnIndex)
 		{
 			_pixelMatrix[pair.first.first][pair.first.second] = _reactions[rxn].products.first;  // Update first pixel in matrix with new product
 			_pixelMatrix[pair.second.first][pair.second.second] = _reactions[rxn].products.second;  // Update second pixel in matrix with new product
+
+			updateConc(rxn);  // Update concentrations of matrix since matrix was changed
 		}
 	}
 }
+
+void Tile::updateConc(int rxn)
+{
+	for (int i = 0; i < _reactions.size(); ++i)
+	{
+		if (rxn == i)
+		{
+			++_conc[_reactions[rxn].products.first];  // Increase product conc
+			++_conc[_reactions[rxn].products.second];  // Increase product conc
+
+			for (auto it = _reactions[rxn].reactants.begin(); it != _reactions[rxn].reactants.end(); ++it)  // Decrease each reactant conc
+			{
+				--_conc[*it];
+			}
+		} 
+	}
+}
+

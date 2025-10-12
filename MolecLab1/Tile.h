@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <unordered_set>
+#include <unordered_map>
 #include <utility>
 #include <random>
 #include <cmath>
@@ -14,6 +15,7 @@
 using std::string;
 using std::pair;
 using std::unordered_set;
+using std::unordered_map;
 using std::vector;
 using std::fstream;
 using std::stringstream;
@@ -32,11 +34,11 @@ struct Reaction {
 class Tile
 {
 public:
-	// update resize and rules and products manually???
 	Tile(const string& filename) : _rowSize(0), _colSize(0), _totalProp(0)
 	{
 		readFromFile(filename);  // Read matrix and reactions
 		updateSizeParams();
+		initConc();
 	}
 	~Tile() {};
 
@@ -44,6 +46,7 @@ public:
 	void populateMatrix(string& line);  // Using file, input values to matrix
 	void populateReactions(string& line);  // Using file, input reactions to list of possible 
 	void updateSizeParams();  // Calculate size of matrix for later functions
+	void initConc();  // Initilaize concentration values
 
 	void findPixelPairs();  // Obtain all pixel pairs
 	void populateReacPosVec(pair<int, int> pos1, pair<int, int> pos2);  // Fills vector with all pixel pairs - sorted by reaction numbers 
@@ -61,6 +64,7 @@ public:
 	const vector<vector<string>>& getPixelMatrix() const { return _pixelMatrix; }
 
 	void updateMatrix(int rxn, int rxnIndex);
+	void updateConc(int rxn);
 
 private:
 	vector<vector<string>> _pixelMatrix;  // Creates a grid of pixels to represent tile - string representation of reactant
@@ -69,5 +73,6 @@ private:
 	double _totalProp;
 	vector<double> _reacProp;  // Propensities for each reaction
 	vector<Reaction> _reactions;  // List of reactions
+	unordered_map<string, int> _conc;  // Key = reactant --> holds # of pixels as concentration
 };
 #endif
