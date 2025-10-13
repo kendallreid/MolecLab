@@ -219,9 +219,9 @@ void Tile::updateConc(int rxn)
 			++_conc[_reactions[rxn].products.first];  // Increase product conc
 			++_conc[_reactions[rxn].products.second];  // Increase product conc
 
-			for (auto it = _reactions[rxn].reactants.begin(); it != _reactions[rxn].reactants.end(); ++it)  // Decrease each reactant conc
+			for (const auto& reactant : _reactions[rxn].reactants)  // Decrease each reactant conc
 			{
-				--_conc[*it];
+				--_conc[reactant];
 			}
 		} 
 	}
