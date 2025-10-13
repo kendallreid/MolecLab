@@ -4,6 +4,6 @@
 int main()
 {
 	Tile t("input.csv");
-	/*Sim simulation();
-	simulation.runSim(100);*/
+	Sim simulation;
+	simulation.runSim(100);
 }

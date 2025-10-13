@@ -81,5 +81,5 @@ void Sim::runSim(double maxTime)
 		dataFile << endl;
 	}
 	dataFile.close();
-	std::system("gnuplot -p -e \"plot 'concentrations.txt' using 1:2 with lines title 'A', '' using 1:3 with lines title 'B', '' using 1:4 with lines title 'U'\"");
+	//std::system("gnuplot -p -e \"plot 'concentrations.txt' using 1:2 with lines title 'A', '' using 1:3 with lines title 'B', '' using 1:4 with lines title 'U'\"");
 }
