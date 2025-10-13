@@ -57,7 +57,7 @@ void Sim::runSim(double maxTime)
 {
 	Tile tile("input.csv");
 
-	tile.tileSimStep();  //NEED???????????????
+	tile.tileSimStep();  // Calculates starting propensities so sim can run
 
 	// Open data file for plotting values
 	std::ofstream dataFile("concentrations.txt");

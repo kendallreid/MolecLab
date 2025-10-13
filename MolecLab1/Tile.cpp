@@ -221,7 +221,14 @@ void Tile::updateConc(int rxn)
 
 			for (const auto& reactant : _reactions[rxn].reactants)  // Decrease each reactant conc
 			{
-				--_conc[reactant];
+				if (_reactions[rxn].reactants.size() == 1)  // If reactants are the same
+				{
+					_conc[reactant] -= 2;
+				}
+				else  // Reactants are different
+				{
+					--_conc[reactant];
+				}
 			}
 		} 
 	}
