@@ -113,29 +113,16 @@ void Tile::findPixelPairs()
 		for (int col = 0; col < _colSize; ++col)
 		{
 			if (col < _colSize - 1)  // Check if in bounds (next column) right
-			{
-				if (_pixelMatrix[row][col] != _pixelMatrix[row][col + 1])  // If reactants aren't the same
-					populateReacPosVec({ row, col }, { row, col + 1 });  // Enter positions of each reactant into pixel pair vector
+				populateReacPosVec({ row, col }, { row, col + 1 });
 
-			}
 			if (col > 0)  // Check in bounds (previous column) left
-			{
-				if (_pixelMatrix[row][col] != _pixelMatrix[row][col - 1])
-					populateReacPosVec({ row, col }, { row, col - 1 });
+				populateReacPosVec({ row, col }, { row, col - 1 });
 
-			}
 			if (row < _rowSize - 1)  // Check if in bounds (lower row) down
-			{
-				if (_pixelMatrix[row][col] != _pixelMatrix[row + 1][col])
-					populateReacPosVec({ row, col }, { row + 1, col });
+				populateReacPosVec({ row, col }, { row + 1, col });
 
-			}
 			if (row > 0)  // Check in bounds (above row) up
-			{
-				if (_pixelMatrix[row][col] != _pixelMatrix[row - 1][col])
-					populateReacPosVec({ row, col }, { row - 1, col });
-
-			}
+				populateReacPosVec({ row, col }, { row - 1, col });
 		}
 	}
 }
@@ -147,7 +134,10 @@ void Tile::populateReacPosVec(pair<int, int> pos1, pair<int, int> pos2)
 
 	for (int i = 0; i < _reactions.size(); ++i)
 	{
-		if (bothInSet(reac1, reac2, _reactions[i]))  // If reactants match reaction add to pixel pair list
+		if (reac1 != reac2 && bothInSet(reac1, reac2, _reactions[i]))
+			_reactantPixelPairPos[i].emplace_back(pos1, pos2);
+
+		else if (reac1 == reac2 && _reactions[i].reactants.size() == 1 && _reactions[i].reactants.count(reac1))  // Same reactant
 			_reactantPixelPairPos[i].emplace_back(pos1, pos2);
 	}
 }
