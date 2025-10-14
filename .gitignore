@@ -16,5 +16,6 @@ x64/
 *.ipch
 *.cache
 
-MolecLab1/concentrations.txt
+MolecLab1/concentrations.csv
+MolecLab1/matrices.csv
 MolecLab1/plot.gp

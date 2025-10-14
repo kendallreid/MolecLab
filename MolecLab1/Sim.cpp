@@ -47,18 +47,38 @@ void Sim::simStep(Tile& tile)
 	}
 }
 
-void Sim::printConcToFile(ofstream& dataFile)
+//void Sim::printConc(ofstream& dataFile)
+//{
+//	double currentTime = _timeTrack[_timeTrack.size() - 1];
+//	dataFile << currentTime << " ";
+//	if (!_concOverTime.empty())
+//	{
+//		for (const auto& conc : _concOverTime[_concOverTime.size() - 1])  // Print each reactants concentration
+//		{
+//			dataFile << conc.second << " ";
+//		}
+//	}
+//	dataFile << endl;
+//}
+
+void Sim::printConcToFile(const string& filename)
 {
-	double currentTime = _timeTrack[_timeTrack.size() - 1];
-	dataFile << currentTime << " ";
-	if (!_concOverTime.empty())
+	std::ofstream csvFileC(filename, std::ios::out | std::ios::app);
+	if (csvFileC.good())
 	{
-		for (const auto& conc : _concOverTime[_concOverTime.size() - 1])  // Print each reactants concentration
+		double currentTime = _timeTrack[_timeTrack.size() - 1];
+		csvFileC << currentTime;
+		if (!_concOverTime.empty())
 		{
-			dataFile << conc.second << " ";
+			for (const auto& conc : _concOverTime[_concOverTime.size() - 1])  // Print each reactants concentration
+			{
+				csvFileC << "," << conc.second;
+			}
 		}
+		csvFileC << "\n";
 	}
-	dataFile << endl;
+	else { cout << "File not properly opened" << endl; }
+	csvFileC.close();
 }
 
 void Sim::runSim(double maxTime)
@@ -67,32 +87,33 @@ void Sim::runSim(double maxTime)
 	ofstream csvFile("matrices.csv", std::ios::out | std::ios::trunc);
 	if (csvFile.good())
 	{
+		csvFile.close();  // Close so all old data is gone
 		_concOverTime.push_back(tile.concToVector());  // Starting concentrations
 		tile.tileSimStep();  // Calculates starting propensities so sim can run
 
 		// Open data file for plotting values
-		ofstream dataFile("concentrations.txt");
-		if (dataFile.good())
+		ofstream csvFileC("concentrations.csv", std::ios::out | std::ios::trunc);
+		if (csvFileC.good())
 		{
-			dataFile << "Time ";
+			csvFileC << "Time";
 			for (const auto& reactant : _concOverTime[0])  // Print all reactants in header
 			{
-				dataFile << reactant.first << " ";
+				csvFileC << "," << reactant.first;
 			}
-			dataFile << endl;
+			csvFileC << "\n";
+			csvFileC.close();  // Finish flushing header to file before other data written
 
 			while (_timeTrack[_timeTrack.size() - 1] < maxTime && tile.getTotalProp() > 0)  // Time not run out & reactions still possible
 			{
-				tile.printMatrix();  ///////////////////VISUALS////////////////////////////
+				//tile.printMatrix();  ///////////////////VISUALS////////////////////////////
 				tile.printMatrixToFile("matrices.csv");
-				printConcToFile(dataFile);
+				printConcToFile("concentrations.csv");
 				simStep(tile);  // Run reaction 
 			}
 			createPlot();
 		}
 		else { cout << "File not properly opened" << endl; }
-		dataFile.close();
-		//createPlot();
+		csvFileC.close();
 	}
 	else{ cout << "File not properly opened" << endl; }
 	csvFile.close();
@@ -104,8 +125,8 @@ void Sim::createPlot()
 	gp << "set key autotitle columnhead\n";
 	gp << "set xlabel 'Time'\n";
 	gp << "set ylabel 'Concentration'\n";
-	gp << "set datafile separator ' '\n";  // <-- use space as separator
-	gp << "plot for [col=2:*] 'concentrations.txt' using 1:col with lines lw 2\n";
+	gp << "set datafile separator ','\n";
+	gp << "plot for [col=2:*] 'concentrations.csv' using 1:col with lines lw 2\n";
 	gp.close();
 
 	std::system("gnuplot -p plot.gp");

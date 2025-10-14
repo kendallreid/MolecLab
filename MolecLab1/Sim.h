@@ -30,7 +30,8 @@ public:
 	void performReaction(const int& rxn, Tile& tile);
 
 	void simStep(Tile& tile);
-	void printConcToFile(ofstream& dataFile);
+	//void printConc(ofstream& dataFile);
+	void printConcToFile(const string& filename);
 	void runSim(double maxTime);
 	void createPlot();
 

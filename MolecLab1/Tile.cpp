@@ -158,18 +158,18 @@ void Tile::tileSimStep()
 	calcTotalProp();
 }
 
-void Tile::printMatrix()
-{
-	for (const auto& row : _pixelMatrix)
-	{
-		for (const auto& pixel : row)
-		{
-			cout << pixel << " ";
-		}
-		cout << endl;
-	}
-	cout << endl;
-}
+//void Tile::printMatrix()
+//{
+//	for (const auto& row : _pixelMatrix)
+//	{
+//		for (const auto& pixel : row)
+//		{
+//			cout << pixel << " ";
+//		}
+//		cout << endl;
+//	}
+//	cout << endl;
+//}
 
 // Print to file so can make python visuals
 void Tile::printMatrixToFile(const string& filename)

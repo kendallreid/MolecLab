@@ -136,10 +136,8 @@
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="concentrations.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\.gitignore" />
+    <None Include="concentrations.csv" />
     <None Include="input.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
