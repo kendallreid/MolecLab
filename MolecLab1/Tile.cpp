@@ -171,6 +171,27 @@ void Tile::printMatrix()
 	cout << endl;
 }
 
+// Print to file so can make python visuals
+void Tile::printMatrixToFile(const string& filename)
+{
+	std::ofstream csvFile(filename, std::ios::out | std::ios::app);
+	if (csvFile.good())
+	{
+		for (const auto& row : _pixelMatrix)
+		{
+			for (int j = 0; j < row.size(); ++j)
+			{
+				csvFile << row[j];
+				if (j + 1 < row.size()) csvFile << ",";
+			}
+			csvFile << "\n";
+		}
+		csvFile << "\n";
+	}
+	else { cout << "File not properly opened" << endl; }
+	csvFile.close();
+}
+
 void Tile::calcReacProp()
 {
 	for (int i = 0; i < _reactions.size(); ++i)  // For each possible reaction, calculate propensity

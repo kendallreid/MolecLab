@@ -64,27 +64,38 @@ void Sim::printConcToFile(ofstream& dataFile)
 void Sim::runSim(double maxTime)
 {
 	Tile tile("input.csv");
-
-	_concOverTime.push_back(tile.concToVector());  // Starting concentrations
-	tile.tileSimStep();  // Calculates starting propensities so sim can run
-
-	// Open data file for plotting values
-	ofstream dataFile("concentrations.txt");
-	dataFile << "Time ";
-	for (const auto& reactant : _concOverTime[0])  // Print all reactants in header
+	ofstream csvFile("matrices.csv", std::ios::out | std::ios::trunc);
+	if (csvFile.good())
 	{
-		dataFile << reactant.first << " ";
-	}
-	dataFile << endl;
+		_concOverTime.push_back(tile.concToVector());  // Starting concentrations
+		tile.tileSimStep();  // Calculates starting propensities so sim can run
 
-	while (_timeTrack[_timeTrack.size() - 1] < maxTime && tile.getTotalProp() > 0)  // Time not run out & reactions still possible
-	{
-		tile.printMatrix();  ///////////////////VISUALS////////////////////////////
-		printConcToFile(dataFile);
-		simStep(tile);  // Run reaction 
+		// Open data file for plotting values
+		ofstream dataFile("concentrations.txt");
+		if (dataFile.good())
+		{
+			dataFile << "Time ";
+			for (const auto& reactant : _concOverTime[0])  // Print all reactants in header
+			{
+				dataFile << reactant.first << " ";
+			}
+			dataFile << endl;
+
+			while (_timeTrack[_timeTrack.size() - 1] < maxTime && tile.getTotalProp() > 0)  // Time not run out & reactions still possible
+			{
+				tile.printMatrix();  ///////////////////VISUALS////////////////////////////
+				tile.printMatrixToFile("matrices.csv");
+				printConcToFile(dataFile);
+				simStep(tile);  // Run reaction 
+			}
+			createPlot();
+		}
+		else { cout << "File not properly opened" << endl; }
+		dataFile.close();
+		//createPlot();
 	}
-	dataFile.close();
-	createPlot();
+	else{ cout << "File not properly opened" << endl; }
+	csvFile.close();
 }
 
 void Sim::createPlot()

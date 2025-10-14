@@ -53,6 +53,7 @@ public:
 	bool bothInSet(const string& reac1, const string& reac2, const Reaction& rxn);  // Check if their is a reaction
 	void tileSimStep();
 	void printMatrix();
+	void printMatrixToFile(const string& filename);
 
 	void calcReacProp();
 	void calcTotalProp();
