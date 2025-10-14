@@ -43,43 +43,59 @@ void Sim::simStep(Tile& tile)
 		nextReacTime(tile.getTotalProp());
 		int reaction = determineReaction(tile.getTotalProp(), tile.getReacProp());
 		performReaction(reaction, tile);
-		
-		vector<pair<string, int>> concs;
-		for (const auto& conc : tile.getConc())  // Add current conc to tracker
-		{
-			concs.push_back({ conc.first, conc.second });
-		}
-		_concOverTime.push_back(concs);
+		_concOverTime.push_back(tile.concToVector());  // Add new concentrations to tracker
 	}
+}
+
+void Sim::printConcToFile(ofstream& dataFile)
+{
+	double currentTime = _timeTrack[_timeTrack.size() - 1];
+	dataFile << currentTime << " ";
+	if (!_concOverTime.empty())
+	{
+		for (const auto& conc : _concOverTime[_concOverTime.size() - 1])  // Print each reactants concentration
+		{
+			dataFile << conc.second << " ";
+		}
+	}
+	dataFile << endl;
 }
 
 void Sim::runSim(double maxTime)
 {
 	Tile tile("input.csv");
 
+	_concOverTime.push_back(tile.concToVector());  // Starting concentrations
 	tile.tileSimStep();  // Calculates starting propensities so sim can run
 
 	// Open data file for plotting values
-	std::ofstream dataFile("concentrations.txt");
-	dataFile << "Time - Reactants" << std::endl;
+	ofstream dataFile("concentrations.txt");
+	dataFile << "Time ";
+	for (const auto& reactant : _concOverTime[0])  // Print all reactants in header
+	{
+		dataFile << reactant.first << " ";
+	}
+	dataFile << endl;
 
 	while (_timeTrack[_timeTrack.size() - 1] < maxTime && tile.getTotalProp() > 0)  // Time not run out & reactions still possible
 	{
 		tile.printMatrix();  ///////////////////VISUALS////////////////////////////
+		printConcToFile(dataFile);
 		simStep(tile);  // Run reaction 
-
-		// Log current time and concentrations to file
-		double currentTime = _timeTrack[_timeTrack.size() - 1];
-		dataFile << currentTime << " - ";
-		if (!_concOverTime.empty())
-		{
-			for (const auto& conc : _concOverTime[_concOverTime.size() - 1])  // Print each reactants concentration
-			{
-				dataFile << "(" << conc.first << ", " << conc.second << ") ";
-			}
-		}
-		dataFile << endl;
 	}
 	dataFile.close();
-	//std::system("gnuplot -p -e \"plot 'concentrations.txt' using 1:2 with lines title 'A', '' using 1:3 with lines title 'B', '' using 1:4 with lines title 'U'\"");
+	createPlot();
+}
+
+void Sim::createPlot()
+{
+	std::ofstream gp("plot.gp");
+	gp << "set key autotitle columnhead\n";
+	gp << "set xlabel 'Time'\n";
+	gp << "set ylabel 'Concentration'\n";
+	gp << "set datafile separator ' '\n";  // <-- use space as separator
+	gp << "plot for [col=2:*] 'concentrations.txt' using 1:col with lines lw 2\n";
+	gp.close();
+
+	std::system("gnuplot -p plot.gp");
 }

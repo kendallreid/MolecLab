@@ -234,3 +234,13 @@ void Tile::updateConc(int rxn)
 	}
 }
 
+const vector<pair<string, int>> Tile::concToVector()
+{
+	vector<pair<string, int>> concs;
+	for (const auto& conc : _conc)  // Add current conc to tracker
+	{
+		concs.push_back({ conc.first, conc.second });
+	}
+	return concs;
+}
+

@@ -15,6 +15,7 @@ using std::string;
 using std::vector;
 using std::pair;
 using std::unordered_map;
+using std::ofstream;
 
 class Sim
 {
@@ -29,7 +30,9 @@ public:
 	void performReaction(const int& rxn, Tile& tile);
 
 	void simStep(Tile& tile);
+	void printConcToFile(ofstream& dataFile);
 	void runSim(double maxTime);
+	void createPlot();
 
 private:
 	vector<vector<pair<string,int>>> _concOverTime;  // Keeps track of concentrations over time

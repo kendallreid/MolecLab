@@ -66,6 +66,7 @@ public:
 
 	void updateMatrix(int rxn, int rxnIndex);
 	void updateConc(int rxn);
+	const vector<pair<string, int>> concToVector();
 
 private:
 	vector<vector<string>> _pixelMatrix;  // Creates a grid of pixels to represent tile - string representation of reactant
