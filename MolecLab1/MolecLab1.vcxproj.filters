@@ -34,14 +34,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="concentrations.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="input.csv">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\.gitignore" />
+    <None Include="concentrations.csv" />
+    <None Include="matrices.csv" />
+    <None Include="matrix_visuals.py">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
