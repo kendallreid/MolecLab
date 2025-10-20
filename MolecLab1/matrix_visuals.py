@@ -64,7 +64,7 @@ def animate_matrices_manual(matrices, color_map):
             ax.set_title(f"Matrix Step {frame_idx['value']}")
         return [im]
 
-    ani = animation.FuncAnimation(fig, update, interval=1000)
+    ani = animation.FuncAnimation(fig, update, interval=500)
     plt.show()
 
 if __name__ == "__main__":

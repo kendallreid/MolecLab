@@ -1,7 +1,9 @@
 ---MATRIX---
-A,B,A
-U,B,B
-B,A,B
+A,B,A,B,U
+U,B,B,A,B
+B,A,B,A,A
+A,A,B,U,U
+A,B,U,U,A
 
 ---REACTIONS---
 A+B=U+U,1.0
