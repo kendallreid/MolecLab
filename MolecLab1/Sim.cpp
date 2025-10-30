@@ -91,7 +91,6 @@ void Sim::runSim(double maxTime)
 
 			while (_timeTrack[_timeTrack.size() - 1] < maxTime && tile.getTotalProp() > 0)  // Time not run out & reactions still possible
 			{
-				//tile.printMatrix();  ///////////////////VISUALS////////////////////////////
 				tile.printMatrixToFile("matrices.csv");
 				printConcToFile("concentrations.csv");
 				simStep(tile);  // Run reaction 
