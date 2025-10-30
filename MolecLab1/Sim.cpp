@@ -47,20 +47,6 @@ void Sim::simStep(Tile& tile)
 	}
 }
 
-//void Sim::printConc(ofstream& dataFile)
-//{
-//	double currentTime = _timeTrack[_timeTrack.size() - 1];
-//	dataFile << currentTime << " ";
-//	if (!_concOverTime.empty())
-//	{
-//		for (const auto& conc : _concOverTime[_concOverTime.size() - 1])  // Print each reactants concentration
-//		{
-//			dataFile << conc.second << " ";
-//		}
-//	}
-//	dataFile << endl;
-//}
-
 void Sim::printConcToFile(const string& filename)
 {
 	std::ofstream csvFileC(filename, std::ios::out | std::ios::app);
